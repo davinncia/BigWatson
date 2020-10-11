@@ -1,4 +1,4 @@
-package com.davinciapp.bigwatson
+package com.davinciapp.bigwatson.view.main
 
 import android.app.Application
 import android.os.Bundle
@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.davinciapp.bigwatson.R
+import com.davinciapp.bigwatson.bind
+import com.davinciapp.bigwatson.view.tweets.TweetsActivity
 import com.ibm.cloud.sdk.core.security.IamAuthenticator
 import com.ibm.watson.personality_insights.v3.PersonalityInsights
 import com.ibm.watson.personality_insights.v3.model.ProfileOptions
@@ -29,8 +32,8 @@ class MainApplication: Application()
 class MainActivity : AppCompatActivity() {
     
     //TODO hide
-    private val watsonApiKey = "LBAEiPZ69mfa3X3lxIge4GiPKNctHS8n152kenKsATze"
-    private val watsonUrl = "https://gateway-lon.watsonplatform.net/personality-insights/api"
+    private val watsonApiKey = "xxx"
+    private val watsonUrl = "xxx"
 
 
     private val viewModel: MainViewModel by lazy {
@@ -50,12 +53,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val userAdapter = UserListAdapter(listOf(), object : OnUserClickListener {
-            override fun onUserClick(id: String) {
-                Toast.makeText(this@MainActivity, id, Toast.LENGTH_SHORT).show()
+        val userAdapter = UserListAdapter(listOf(), object : UserListAdapter.OnUserClickListener {
+            override fun onUserClick(user: TwitterUser) {
+                startActivity(TweetsActivity.newIntent(this@MainActivity, user))
             }
-
         })
+
         initRecyclerView(userAdapter)
 
         //DEBUG
@@ -138,22 +141,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*
-    private fun fetchTweets(userName: String) {
 
-        GlobalScope.launch {
-            val tweets = twitter.getUserTimeline(userName, Paging(2)) // 40 tweets
-
-            var tweetsText = ""
-            tweets.forEach { tweetsText += "${it.text}\n" }
-
-            runOnUiThread {
-                //textView.text = tweetsText
-            }
-        }
-    }
-
-     */
 
     private fun runPersonalityInsight(text: String) {
         val authenticator = IamAuthenticator(watsonApiKey)

@@ -1,4 +1,4 @@
-package com.davinciapp.bigwatson
+package com.davinciapp.bigwatson.view.main
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.davinciapp.bigwatson.R
 
 class UserListAdapter(
     private var users: List<TwitterUser>,
-    private val listener: OnUserClickListener)
+    private val listener: OnUserClickListener
+)
     : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
 
 
@@ -38,7 +40,7 @@ class UserListAdapter(
 
         init {
             itemView.setOnClickListener {
-                listener.onUserClick(users[adapterPosition].displayName)
+                listener.onUserClick(users[adapterPosition])
             }
         }
 
@@ -48,8 +50,9 @@ class UserListAdapter(
             if (user.isVerified) badgeView.setImageResource(R.drawable.ic_twitter_verified_badge)
         }
     }
+
+    interface OnUserClickListener {
+        fun onUserClick(user: TwitterUser)
+    }
 }
 
-interface OnUserClickListener {
-    fun onUserClick(id: String)
-}

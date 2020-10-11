@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BigWatson</string>
+    <string name="analyse_tweets">Analyse tweets</string>
 </resources>

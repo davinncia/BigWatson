@@ -1,4 +1,4 @@
-package com.davinciapp.bigwatson
+package com.davinciapp.bigwatson.view.main
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
@@ -22,7 +22,7 @@ class MainViewModel @ViewModelInject constructor(
     fun searchUsers(input: String) {
         viewModelScope.launch(Dispatchers.IO) {
                  val result = twitterRepo.searchUser(input).map {
-                    TwitterUser(it.profileImageURL, it.screenName, it.isVerified)
+                    TwitterUser(it.id, it.biggerProfileImageURL, it.screenName, it.isVerified)
                 }
 
             withContext(Dispatchers.Main) {
