@@ -5,13 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.davinciapp.bigwatson.repository.InMemoryRepo
 import com.davinciapp.bigwatson.repository.TwitterRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainViewModel @ViewModelInject constructor(
-    private val twitterRepo : TwitterRepo
+    private val twitterRepo : TwitterRepo,
+    private val inMemoryRepo: InMemoryRepo
 ) : ViewModel() {
 
     val test = twitterRepo.tweet()
@@ -29,5 +31,9 @@ class MainViewModel @ViewModelInject constructor(
                 users.value = result
             }
         }
+    }
+
+    fun selectUser(user: TwitterUser) {
+        inMemoryRepo.selectUser(user)
     }
 }

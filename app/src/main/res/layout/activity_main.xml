@@ -5,6 +5,7 @@
     android:id="@+id/parent_layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".view.main.MainActivity">
 
     <TextView
@@ -12,7 +13,7 @@
         style="@style/BigText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/athiti_medium"
         android:text="Enter a twitter user name"
         app:layout_constraintTop_toTopOf="parent"
@@ -21,7 +22,7 @@
     <EditText
         android:id="@+id/et_twitter_search_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_margin="8dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"

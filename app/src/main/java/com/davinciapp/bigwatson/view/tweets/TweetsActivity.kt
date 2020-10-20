@@ -4,36 +4,42 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.davinciapp.bigwatson.R
+import com.davinciapp.bigwatson.view.analysis.AnalysisActivity
 import com.davinciapp.bigwatson.view.main.TwitterUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TweetsActivity : AppCompatActivity() {
 
+    //TODO words count / actualize button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tweets)
 
         val viewModel = ViewModelProvider(this).get(TweetsViewModel::class.java)
-        viewModel.tweetsLiveData.observe(this) {
+
+        viewModel.tweetsLiveData.observe(this,  Observer {
             initRecyclerView(it)
-        }
+        })
 
-        val user = intent.getParcelableExtra<TwitterUser>(USER_KEY)
-
-        user?.let {
-            viewModel.fetchTweets(it.id)
-
-            findViewById<TextView>(R.id.tv_user_name_tweets).text = it.displayName
+        viewModel.userLiveData.observe(this,  Observer {
+            findViewById<TextView>(R.id.tv_user_name_profile_header).text = it.displayName
             Glide.with(this).load(it.imageUrl).circleCrop().into(
-                findViewById(R.id.iv_profile_tweets)
+                findViewById(R.id.iv_profile_header)
             )
+        })
+
+        findViewById<Button>(R.id.btn_analyse_tweets).setOnClickListener {
+            startActivity(AnalysisActivity.newIntent(this))
         }
     }
 
@@ -46,12 +52,6 @@ class TweetsActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val USER_KEY = "user_key"
-
-        fun newIntent(context: Context, user: TwitterUser) : Intent {
-            val intent = Intent(context, TweetsActivity::class.java)
-            intent.putExtra(USER_KEY, user)
-            return intent
-        }
+        fun newIntent(context: Context) =  Intent(context, TweetsActivity::class.java)
     }
 }

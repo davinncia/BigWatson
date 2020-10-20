@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.tweets.TweetsActivity"></activity>
+        <activity android:name=".view.analysis.AnalysisActivity"></activity>
+        <activity android:name=".view.tweets.TweetsActivity" />
         <activity android:name=".view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

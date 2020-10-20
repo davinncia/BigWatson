@@ -1,37 +1,36 @@
 package com.davinciapp.bigwatson.view.tweets
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.davinciapp.bigwatson.repository.InMemoryRepo
 import com.davinciapp.bigwatson.repository.TwitterRepo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class TweetsViewModel @ViewModelInject constructor(
     private val twitterRepo: TwitterRepo,
+    inMemoryRepo: InMemoryRepo,
     private val dateUtils: DateUtils
 ) : ViewModel() {
 
-    private val tweets = MutableLiveData<List<TweetUi>>()
-    val tweetsLiveData = tweets
+    val userLiveData = inMemoryRepo.userSelected
 
-    fun fetchTweets(id: Long) {
+    val tweetsLiveData = Transformations.switchMap(userLiveData) { user ->
 
-        viewModelScope.launch(Dispatchers.IO) {
-
+        //liveData builder to run asynchronous task and emit the result
+        liveData<List<TweetUi>>(context = viewModelScope.coroutineContext + Dispatchers.IO) {
             val uiTweets = arrayListOf<TweetUi>()
-            twitterRepo.fetchTweets(id).map {
+
+            twitterRepo.fetchTweets(user.id).map {
                 val uiTweet = TweetUi(
                     dateUtils.getDateString(it.createdAt),
                     it.text
                 )
                 uiTweets.add(uiTweet)
             }
-            withContext(Dispatchers.Main) {
-                tweets.value = uiTweets
-            }
+            emit(uiTweets)
         }
     }
+
+    //TODO save text
+
 }
