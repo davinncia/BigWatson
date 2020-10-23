@@ -2,7 +2,7 @@ package com.davinciapp.bigwatson.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.davinciapp.bigwatson.view.main.TwitterUser
+import com.davinciapp.bigwatson.model.TwitterUser
 import javax.inject.Inject
 import javax.inject.Singleton
 

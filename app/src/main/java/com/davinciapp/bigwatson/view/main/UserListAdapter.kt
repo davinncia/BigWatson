@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.davinciapp.bigwatson.R
+import com.davinciapp.bigwatson.model.TwitterUser
 
 class UserListAdapter(
     private var users: List<TwitterUser>,
@@ -26,6 +27,8 @@ class UserListAdapter(
     }
 
     override fun getItemCount(): Int = users.size
+
+    fun getItem(position: Int) = users[position]
 
     fun setUsersList(list: List<TwitterUser>) {
         users = list

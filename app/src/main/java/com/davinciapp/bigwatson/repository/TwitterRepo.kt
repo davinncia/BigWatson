@@ -15,9 +15,8 @@ class TwitterRepo @Inject constructor() {
     //TODO hide
     private val consumerKey = "xxx"
     private val secretConsumerKey = "xxx"
-    private val oauthAccessToken = "xxx"
+    private val oauthAccessToken = "xxx-xxx"
     private val secretOauthAccessToken = "xxx"
-
 
     private val config = ConfigurationBuilder()
         .setOAuthConsumerKey(consumerKey)

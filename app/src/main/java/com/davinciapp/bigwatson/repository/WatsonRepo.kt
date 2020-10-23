@@ -15,7 +15,7 @@ class WatsonRepo @Inject constructor() {
 
     //TODO hide
     private val watsonApiKey = "xxx"
-    private val watsonUrl = "xxx"
+    private val watsonUrl = "https://gateway-lon.watsonplatform.net/personality-insights/api"
 
     private val personalityInsight: PersonalityInsights
 
